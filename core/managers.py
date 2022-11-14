@@ -1,7 +1,7 @@
 import psycopg2
 import psycopg2.extras
 from psycopg2._psycopg import connection, cursor
-
+import logging
 from configs import DB_CONNECTION
 from core.models import DBModel
 
@@ -11,7 +11,17 @@ family_u = ''
 id_u=''
 isLogin = False
 
-
+logging.basicConfig(level=logging.INFO)
+file_handler = logging.FileHandler("buyFile.log")
+logger = logging.getLogger()
+logger.addHandler(file_handler)
+logger.setLevel(logging.INFO)
+stream_handler = logging.StreamHandler()
+stream_handler.setLevel(level=logging.INFO)
+stream_format = logging.Formatter('%(asctime)s-%(name)-10s -%(levelname)-16s - %(filename)s - %(message)s')
+file_format = logging.Formatter('%(asctime)s-%(name)s -%(levelname)s - %(filename)s - %(message)s')
+stream_handler.setFormatter(stream_format)
+file_handler.setFormatter(file_format)
 class DBManager:
     HOST = DB_CONNECTION["HOST"]
     USER = DB_CONNECTION["USER"]
